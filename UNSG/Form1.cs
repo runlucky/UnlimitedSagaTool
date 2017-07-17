@@ -44,7 +44,7 @@ namespace UNSG
             {
                 case Ruler.RulerMode.Mode1:
                     stateMode.Text = "第1形態";
-                    stateMode.ForeColor = Color.White;
+                    stateMode.ForeColor = SystemColors.ControlText;
                     break;
 
                 case Ruler.RulerMode.Mode2Red:
@@ -58,7 +58,7 @@ namespace UNSG
                     break;
 
                 case Ruler.RulerMode.Mode3:
-                    stateMode.ForeColor = Color.White;
+                    stateMode.ForeColor = SystemColors.ControlText;
                     stateMode.Text = "第3形態";
                     break;
 
