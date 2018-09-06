@@ -40,39 +40,8 @@ namespace UNSG
         /// </summary>
         private void SetText()
         {
-            switch (ruler.Mode)
-            {
-                case Ruler.RulerMode.Mode1:
-                    stateMode.Text = "第1形態";
-                    stateMode.ForeColor = SystemColors.ControlText;
-                    break;
-
-                case Ruler.RulerMode.Mode2Red:
-                    stateMode.Text = "第2形態(赤)";
-                    stateMode.ForeColor = Color.FromArgb(237, 131, 32);
-                    break;
-
-                case Ruler.RulerMode.Mode2Blue:
-                    stateMode.Text = "第2形態(青)";
-                    stateMode.ForeColor = Color.FromArgb(61, 143, 222);
-                    break;
-
-                case Ruler.RulerMode.Mode3:
-                    stateMode.ForeColor = SystemColors.ControlText;
-                    stateMode.Text = "第3形態";
-                    break;
-
-                case Ruler.RulerMode.Mode4:
-                    stateMode.Text = "最終形態";
-                    break;
-
-                case Ruler.RulerMode.Death:
-                    stateMode.Text = "撃破";
-                    break;
-
-                default:
-                    break;
-            }
+            stateMode.Text = ruler.Name;
+            stateMode.ForeColor = ruler.NameColor;
 
             stateTurn.Text = string.Format("{0}ターン目", ruler.Turn);
             stateAction.Text = string.Format("最大{0}回", ruler.Action);
@@ -88,17 +57,10 @@ namespace UNSG
         /// <param name="e"></param>
         private void tabControl1_KeyDown(object sender, KeyEventArgs e)
         {
-            //撃破しているならリターン
-            if (ruler.Mode == Ruler.RulerMode.Death)
-            {
-                return;
-            }
+            if (ruler.IsDead) return;
 
             //ルーラーのタブ以外はリターン
-            if (tabControl1.SelectedIndex != 0)
-            {
-                return;
-            }
+            if (tabControl1.SelectedIndex != 0) return;
 
             int Damage;
             switch (e.KeyCode)
@@ -186,7 +148,7 @@ namespace UNSG
 
         private void バージョンToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show
+            MessageBox.Show
             (
                 "アンサガツール\n\nv0.1.4\n\n2014/11/17\n製作者 : We",
                 "情報",
@@ -196,7 +158,7 @@ namespace UNSG
 
         private void 使い方ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show
+            MessageBox.Show
             (
                 "ルーラータブ\n"
                 + "　　Enterキーを押すとターン数が1増えます\n"
@@ -214,55 +176,16 @@ namespace UNSG
             );
         }
 
-        private void buttonBowL_Click(object sender, EventArgs e)
-        {
-            SetValue(textBoxBow, -1);
-        }
-
-        private void buttonBowR_Click(object sender, EventArgs e)
-        {
-            SetValue(textBoxBow, 1);
-        }
-
-        private void buttonDifL_Click(object sender, EventArgs e)
-        {
-            SetValue(textBoxDif, -1);
-        }
-
-        private void buttonDifR_Click(object sender, EventArgs e)
-        {
-            SetValue(textBoxDif, 1);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            SetValue(textBox1, -1);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            SetValue(textBox2, -1);
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            SetValue(textBox3, -1);
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            SetValue(textBox1, 1);
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            SetValue(textBox2, 1);
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            SetValue(textBox3, 1);
-        }
+        private void buttonBowL_Click(object sender, EventArgs e) => SetValue(textBoxBow, -1);
+        private void buttonBowR_Click(object sender, EventArgs e) => SetValue(textBoxBow, 1);
+        private void buttonDifL_Click(object sender, EventArgs e) => SetValue(textBoxDif, -1);
+        private void buttonDifR_Click(object sender, EventArgs e) => SetValue(textBoxDif, 1);
+        private void button2_Click(object sender, EventArgs e) => SetValue(textBox1, -1);
+        private void button4_Click(object sender, EventArgs e) => SetValue(textBox2, -1);
+        private void button6_Click(object sender, EventArgs e) => SetValue(textBox3, -1);
+        private void button1_Click_1(object sender, EventArgs e) => SetValue(textBox1, 1);
+        private void button3_Click(object sender, EventArgs e) => SetValue(textBox2, 1);
+        private void button5_Click(object sender, EventArgs e) => SetValue(textBox3, 1);
 
         private void SetValue(TextBox tBox, int n)
         {
@@ -297,30 +220,11 @@ namespace UNSG
             }
         }
 
-        private void button11_Click(object sender, EventArgs e)
-        {
-            textBoxBow.Text = "0";
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            textBoxDif.Text = "0";
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            textBox1.Text = "0";
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            textBox2.Text = "0";
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            textBox3.Text = "0";
-        }
+        private void button11_Click(object sender, EventArgs e) => textBoxBow.Text = "0";
+        private void button10_Click(object sender, EventArgs e) => textBoxDif.Text = "0";
+        private void button9_Click(object sender, EventArgs e) => textBox1.Text = "0";
+        private void button8_Click(object sender, EventArgs e) => textBox2.Text = "0";
+        private void button7_Click(object sender, EventArgs e) => textBox3.Text = "0";
 
         /// <summary>
         /// 終了処理
@@ -337,183 +241,51 @@ namespace UNSG
 
         private void ルーラーToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool IsReset = false;
+            if (!CanRulerReset()) return;
 
-            //確認ダイアログ
-            if (MenuNoDialog.Checked)
-            {
-                IsReset = true;
-            }
-            else if (DialogResult.Yes == MessageBox.Show("ルーラーの表示内容を初期化します。\nよろしいですか？",
+            ruler.SetData(Ruler.RulerMode.Mode1);
+            ruler.ResetAction(Ruler.RulerMode.Mode1);
+            SetText();
+        }
+
+        private bool CanRulerReset()
+        {
+            if (MenuNoDialog.Checked) return true;
+            if (DialogResult.Yes == MessageBox.Show("ルーラーの表示内容を初期化します。\nよろしいですか？",
               "確認",
               MessageBoxButtons.YesNo,
               MessageBoxIcon.Exclamation,
               MessageBoxDefaultButton.Button2))
             {
-                IsReset = true;
+                return true;
             }
 
-            if (IsReset)
-            {
-                ruler.SetData(Ruler.RulerMode.Mode1);
-                ruler.ResetAction(Ruler.RulerMode.Mode1);
-                SetText();
-            }
+            return false;
         }
 
         private void カウンタToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool IsReset = false;
+            if (!CanCounterReset()) return;
 
-            //確認ダイアログ
-            if (MenuNoDialog.Checked)
-            {
-                IsReset = true;
-            }
-            else if (DialogResult.Yes == MessageBox.Show("カウンタの表示内容を初期化します。\nよろしいですか？",
-              "確認",
-              MessageBoxButtons.YesNo,
-              MessageBoxIcon.Exclamation,
-              MessageBoxDefaultButton.Button2))
-            {
-                IsReset = true;
-            }
-
-            if (IsReset)
-            {
-                textBoxBow.Text = "0";
-                textBoxDif.Text = "0";
-                textBox1.Text = "0";
-                textBox2.Text = "0";
-                textBox3.Text = "0";
-            }
-        }
-    }
-
-    public class Ruler
-    {
-        /// <summary>
-        /// ルーラーの形態
-        /// </summary>
-        public enum RulerMode
-        {
-            Mode1,
-            Mode2Red,
-            Mode2Blue,
-            Mode3,
-            Mode4,
-
-            /// <summary>
-            /// 撃破
-            /// </summary>
-            Death
+            textBoxBow.Text = "0";
+            textBoxDif.Text = "0";
+            textBox1.Text = "0";
+            textBox2.Text = "0";
+            textBox3.Text = "0";
         }
 
-        /// <summary>
-        /// 形態
-        /// </summary>
-        public RulerMode Mode { get; set; }
-
-        /// <summary>
-        /// 残LP
-        /// </summary>
-        public int LP { get; set; }
-
-        /// <summary>
-        /// 経過ターン数
-        /// </summary>
-        public int Turn { get; set; }
-
-        /// <summary>
-        /// 残行動数
-        /// </summary>
-        public int Action { get; set; }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public Ruler()
+        private bool CanCounterReset()
         {
-            Mode = RulerMode.Mode1;
-            SetData(Mode);
-            ResetAction(Mode);
-        }
-
-        /// <summary>
-        /// ルーラーの状態初期化
-        /// </summary>
-        /// <param name="Mode">形態(1～4)</param>
-        public void SetData(RulerMode SetMode)
-        {
-            switch (SetMode)
+            if (MenuNoDialog.Checked) return true;
+            if (DialogResult.Yes == MessageBox.Show("カウンタの表示内容を初期化します。\nよろしいですか？",
+             "確認",
+             MessageBoxButtons.YesNo,
+             MessageBoxIcon.Exclamation,
+             MessageBoxDefaultButton.Button2))
             {
-                case RulerMode.Mode1:
-                    this.Mode = SetMode;
-                    Turn = 1;
-                    LP = 22;
-                    break;
-
-                case RulerMode.Mode2Red:
-                    LP = 16;
-                    break;
-
-                case RulerMode.Mode2Blue:
-                    LP = 26;
-                    break;
-
-                case RulerMode.Mode3:
-                    LP = 11;
-                    break;
-
-                case RulerMode.Mode4:
-                    LP = 20;
-                    break;
-
-                case RulerMode.Death:
-                    Action = 0;
-                    LP = 0;
-                    break;
-
-                default:
-                    break;
+                return true;
             }
-        }
-
-        /// <summary>
-        /// ルーラーの行動回数初期化
-        /// </summary>
-        /// <param name="Mode">形態(1～4)</param>
-        public void ResetAction(RulerMode Mode)
-        {
-            switch (Mode)
-            {
-                case RulerMode.Mode1:
-                    Action = 3;
-                    break;
-
-                case RulerMode.Mode2Red:
-                    Action = 4;
-                    break;
-
-                case RulerMode.Mode2Blue:
-                    Action = 4;
-                    break;
-
-                case RulerMode.Mode3:
-                    Action = 5;
-                    break;
-
-                case RulerMode.Mode4:
-                    Action = 7;
-                    break;
-
-                case RulerMode.Death:
-                    Action = 0;
-                    break;
-
-                default:
-                    break;
-            }
+            return false;
         }
     }
 }
